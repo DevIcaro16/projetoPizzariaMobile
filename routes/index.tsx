@@ -1,17 +1,20 @@
 //Aruqivo TS que Gerencia o roteamento
 
-import React from "react";
+import React, { useContext } from "react";
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
 import { View, ActivityIndicator } from "react-native";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Routes() {
 
   //Variável de autenticação
-  const isAuthenticated  = false; 
+  // const isAuthenticated  = false; 
+
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
   //Variável de carregamento
-  const loading = false;
+  // const loading = false;
 
   if(loading){ //Se loading for true, exibe o spinner de carregamento
     return(

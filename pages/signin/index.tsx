@@ -5,7 +5,8 @@ import {
         StyleSheet, 
         Image, 
         TextInput, 
-        TouchableOpacity
+        TouchableOpacity,
+        ActivityIndicator
 } from "react-native";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -15,20 +16,24 @@ import { AuthContext } from "../../contexts/AuthContext";
 export default function Signin() {
 
     //Contexto de Autenticação do Usuário
-    const { user } = useContext(AuthContext);
+    const { SignIn, loadingAuth } = useContext(AuthContext);
 
     //States
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    function handleLogin() {
+    async function handleLogin() {
 
         if(email === "" || password === ""){
             return;
         }
+
+        // console.log(`Email: ${email} \n Password: ${password}`);
+
+        const response = await SignIn({email, password});
         
-        console.log(`Email: ${email} \n Password: ${password}`);
+        // console.log(response);
     }
 
     //OSB: O React Native Tem Seus Própios Componentes Para Impressão De Tela Mobile
@@ -68,9 +73,17 @@ export default function Signin() {
             </View>
 
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>
-                    Acessar
-                </Text>
+                {
+                    loadingAuth ? 
+                        (
+                            <ActivityIndicator size={24} color="#FFF"/>
+                        ) : (
+                            <Text style={styles.buttonText}>
+                                Acessar
+                             </Text>
+                        )
+                        
+                }
             </TouchableOpacity>
 
         </View>
